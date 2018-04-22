@@ -1,0 +1,255 @@
+[
+    {
+        "id": "86afa351.cc88",
+        "type": "mqtt in",
+        "z": "c4ba11dc.705b5",
+        "name": "",
+        "topic": "",
+        "qos": "0",
+        "broker": "",
+        "x": 130,
+        "y": 380,
+        "wires": [
+            [
+                "de1c1fec.7f57c",
+                "ecdd25f9.75d408",
+                "fe748519.e4a1a8"
+            ]
+        ]
+    }
+][
+    {
+        "id": "c4ba11dc.705b5",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "86afa351.cc88",
+        "type": "mqtt in",
+        "z": "c4ba11dc.705b5",
+        "name": "",
+        "topic": "",
+        "qos": "0",
+        "broker": "",
+        "x": 130,
+        "y": 380,
+        "wires": [
+            [
+                "de1c1fec.7f57c",
+                "ecdd25f9.75d408",
+                "fe748519.e4a1a8"
+            ]
+        ]
+    },
+    {
+        "id": "de1c1fec.7f57c",
+        "type": "function",
+        "z": "c4ba11dc.705b5",
+        "name": "Convert to int",
+        "func": "var str = msg.payload;\nmsg.payload = parseInt (str);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 380,
+        "wires": [
+            [
+                "bfd046e1.16baf8"
+            ]
+        ]
+    },
+    {
+        "id": "bfd046e1.16baf8",
+        "type": "switch",
+        "z": "c4ba11dc.705b5",
+        "name": "Check Temp",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "28",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 450,
+        "y": 460,
+        "wires": [
+            [
+                "845783c8.425cd"
+            ]
+        ]
+    },
+    {
+        "id": "ffb50fd5.3b05c",
+        "type": "template",
+        "z": "c4ba11dc.705b5",
+        "name": "Message",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "Warnung!\nDie Temperatur des Kühlschranks fällt!\nMöglicher Abtauvorgang.",
+        "output": "str",
+        "x": 840,
+        "y": 460,
+        "wires": [
+            [
+                "9e33f150.071f1"
+            ]
+        ]
+    },
+    {
+        "id": "9e33f150.071f1",
+        "type": "template",
+        "z": "c4ba11dc.705b5",
+        "name": "Subject",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "!Warnung Kühlschranktemperatur Warnung!",
+        "output": "str",
+        "x": 980,
+        "y": 460,
+        "wires": [
+            [
+                "19fc0f43.f91591"
+            ]
+        ]
+    },
+    {
+        "id": "845783c8.425cd",
+        "type": "trigger",
+        "z": "c4ba11dc.705b5",
+        "op1": "",
+        "op2": "",
+        "op1type": "pay",
+        "op2type": "payl",
+        "duration": "1",
+        "extend": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "name": "Trigger mail",
+        "x": 650,
+        "y": 520,
+        "wires": [
+            [
+                "ffb50fd5.3b05c"
+            ]
+        ]
+    },
+    {
+        "id": "ecdd25f9.75d408",
+        "type": "ui_chart",
+        "z": "c4ba11dc.705b5",
+        "name": "",
+        "group": "e21e577b.b81d98",
+        "order": 0,
+        "width": "10",
+        "height": "6",
+        "label": "Temperatur",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "-30",
+        "ymax": "20",
+        "removeOlder": "50",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "x": 370,
+        "y": 160,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "fe748519.e4a1a8",
+        "type": "ui_gauge",
+        "z": "c4ba11dc.705b5",
+        "name": "",
+        "group": "ed4a6e96.dc13",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "gtype": "gage",
+        "title": "Current temperature",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": "-30",
+        "max": "20",
+        "colors": [
+            "#035ab1",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 440,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "19fc0f43.f91591",
+        "type": "sendgrid",
+        "z": "c4ba11dc.705b5",
+        "from": "",
+        "to": "",
+        "name": "",
+        "x": 1160,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "e21e577b.b81d98",
+        "type": "ui_group",
+        "z": "",
+        "name": "Chart",
+        "tab": "52c7dff1.c8f6c",
+        "order": 1,
+        "disp": true,
+        "width": "10",
+        "collapse": true
+    },
+    {
+        "id": "ed4a6e96.dc13",
+        "type": "ui_group",
+        "z": "",
+        "name": "Measurements",
+        "tab": "52c7dff1.c8f6c",
+        "order": 2,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "52c7dff1.c8f6c",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Dashboard",
+        "icon": "dashboard"
+    }
+]
