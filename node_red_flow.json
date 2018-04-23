@@ -1,68 +1,49 @@
 [
     {
-        "id": "86afa351.cc88",
-        "type": "mqtt in",
-        "z": "c4ba11dc.705b5",
-        "name": "",
-        "topic": "",
-        "qos": "0",
-        "broker": "",
-        "x": 130,
-        "y": 380,
-        "wires": [
-            [
-                "de1c1fec.7f57c",
-                "ecdd25f9.75d408",
-                "fe748519.e4a1a8"
-            ]
-        ]
-    }
-][
-    {
-        "id": "c4ba11dc.705b5",
+        "id": "46ca123f.227bcc",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "86afa351.cc88",
+        "id": "b9e06036.c8d9e",
         "type": "mqtt in",
-        "z": "c4ba11dc.705b5",
+        "z": "46ca123f.227bcc",
         "name": "",
-        "topic": "",
+        "topic": "sensor/temperature",
         "qos": "0",
-        "broker": "",
+        "broker": "6dc674a9.e1b4dc",
         "x": 130,
-        "y": 380,
+        "y": 300,
         "wires": [
             [
-                "de1c1fec.7f57c",
-                "ecdd25f9.75d408",
-                "fe748519.e4a1a8"
+                "a851b263.7f507",
+                "cf559ab8.6a16b8",
+                "7788d0e4.c8d6b"
             ]
         ]
     },
     {
-        "id": "de1c1fec.7f57c",
+        "id": "a851b263.7f507",
         "type": "function",
-        "z": "c4ba11dc.705b5",
+        "z": "46ca123f.227bcc",
         "name": "Convert to int",
         "func": "var str = msg.payload;\nmsg.payload = parseInt (str);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 390,
-        "y": 380,
+        "x": 350,
+        "y": 300,
         "wires": [
             [
-                "bfd046e1.16baf8"
+                "4903e842.272ea8"
             ]
         ]
     },
     {
-        "id": "bfd046e1.16baf8",
+        "id": "4903e842.272ea8",
         "type": "switch",
-        "z": "c4ba11dc.705b5",
+        "z": "46ca123f.227bcc",
         "name": "Check Temp",
         "property": "payload",
         "propertyType": "msg",
@@ -76,18 +57,18 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 450,
-        "y": 460,
+        "x": 410,
+        "y": 380,
         "wires": [
             [
-                "845783c8.425cd"
+                "2be72ff.567c2d"
             ]
         ]
     },
     {
-        "id": "ffb50fd5.3b05c",
+        "id": "fcf7cf96.c1478",
         "type": "template",
-        "z": "c4ba11dc.705b5",
+        "z": "46ca123f.227bcc",
         "name": "Message",
         "field": "payload",
         "fieldType": "msg",
@@ -95,18 +76,18 @@
         "syntax": "mustache",
         "template": "Warnung!\nDie Temperatur des Kühlschranks fällt!\nMöglicher Abtauvorgang.",
         "output": "str",
-        "x": 840,
-        "y": 460,
+        "x": 800,
+        "y": 380,
         "wires": [
             [
-                "9e33f150.071f1"
+                "4d476c53.4097b4"
             ]
         ]
     },
     {
-        "id": "9e33f150.071f1",
+        "id": "4d476c53.4097b4",
         "type": "template",
-        "z": "c4ba11dc.705b5",
+        "z": "46ca123f.227bcc",
         "name": "Subject",
         "field": "topic",
         "fieldType": "msg",
@@ -114,18 +95,18 @@
         "syntax": "plain",
         "template": "!Warnung Kühlschranktemperatur Warnung!",
         "output": "str",
-        "x": 980,
-        "y": 460,
+        "x": 940,
+        "y": 380,
         "wires": [
             [
-                "19fc0f43.f91591"
+                "1ef7aae8.025ba5"
             ]
         ]
     },
     {
-        "id": "845783c8.425cd",
+        "id": "2be72ff.567c2d",
         "type": "trigger",
-        "z": "c4ba11dc.705b5",
+        "z": "46ca123f.227bcc",
         "op1": "",
         "op2": "",
         "op1type": "pay",
@@ -136,35 +117,35 @@
         "reset": "",
         "bytopic": "all",
         "name": "Trigger mail",
-        "x": 650,
-        "y": 520,
+        "x": 610,
+        "y": 440,
         "wires": [
             [
-                "ffb50fd5.3b05c"
+                "fcf7cf96.c1478"
             ]
         ]
     },
     {
-        "id": "ecdd25f9.75d408",
+        "id": "7788d0e4.c8d6b",
         "type": "ui_chart",
-        "z": "c4ba11dc.705b5",
+        "z": "46ca123f.227bcc",
         "name": "",
         "group": "e21e577b.b81d98",
         "order": 0,
         "width": "10",
         "height": "6",
-        "label": "Temperatur",
+        "label": "Temperature",
         "chartType": "line",
         "legend": "true",
-        "xformat": "HH:mm",
+        "xformat": "HH:mm:ss",
         "interpolate": "linear",
         "nodata": "",
         "dot": false,
         "ymin": "-30",
         "ymax": "20",
-        "removeOlder": "50",
+        "removeOlder": "120",
         "removeOlderPoints": "",
-        "removeOlderUnit": "3600",
+        "removeOlderUnit": "60",
         "cutout": 0,
         "useOneColor": false,
         "colors": [
@@ -179,17 +160,17 @@
             "#c5b0d5"
         ],
         "useOldStyle": false,
-        "x": 370,
-        "y": 160,
+        "x": 330,
+        "y": 80,
         "wires": [
             [],
             []
         ]
     },
     {
-        "id": "fe748519.e4a1a8",
+        "id": "cf559ab8.6a16b8",
         "type": "ui_gauge",
-        "z": "c4ba11dc.705b5",
+        "z": "46ca123f.227bcc",
         "name": "",
         "group": "ed4a6e96.dc13",
         "order": 0,
@@ -208,20 +189,39 @@
         ],
         "seg1": "",
         "seg2": "",
-        "x": 440,
-        "y": 200,
+        "x": 400,
+        "y": 120,
         "wires": []
     },
     {
-        "id": "19fc0f43.f91591",
+        "id": "1ef7aae8.025ba5",
         "type": "sendgrid",
-        "z": "c4ba11dc.705b5",
+        "z": "46ca123f.227bcc",
         "from": "",
         "to": "",
-        "name": "",
-        "x": 1160,
-        "y": 460,
+        "name": "Send mail",
+        "x": 1120,
+        "y": 380,
         "wires": []
+    },
+    {
+        "id": "6dc674a9.e1b4dc",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "Aithon MQTT",
+        "broker": "192.168.178.77",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
     },
     {
         "id": "e21e577b.b81d98",
